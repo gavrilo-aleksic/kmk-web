@@ -1,5 +1,6 @@
 import axios from "axios";
 import { LoginModel, UserModel } from "./types";
+import { formatDate } from "../utils/format/date";
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_ROUTE,
@@ -28,5 +29,10 @@ export const loginFn = ({
 export const getUserFn = () => axiosInstance.get<UserModel>("/user");
 
 export const getUsersFn = () => axiosInstance.get<string[]>("/users");
+
+export const getExpensesFn = (dateFrom: Date, dateTo: Date) =>
+  axiosInstance.get<string[]>("/query/troskovi", {
+    params: { od: formatDate(dateFrom), do: formatDate(dateTo) },
+  });
 
 export default axiosInstance;

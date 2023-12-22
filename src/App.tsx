@@ -33,13 +33,18 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import "./App.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import AuthProvider, { AuthContext } from "./context/AuthContext";
 import { useContext } from "react";
 
 setupIonicReact();
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { retry: false, refetchOnWindowFocus: false },
+  },
+});
 
 const App: React.FC = () => (
   <IonApp>

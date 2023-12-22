@@ -23,6 +23,7 @@
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.6.2",
+    "date-fns": "^3.0.6",
     "ionicons": "^7.0.0",
     "node-scp": "^0.0.23",
     "react": "^18.2.0",
