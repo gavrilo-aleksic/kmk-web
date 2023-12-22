@@ -13,6 +13,7 @@ import {
 } from "@ionic/react";
 import "./Login.css";
 import { Controller, useForm } from "react-hook-form";
+import Input from "../../components/form/Input";
 
 const Login: React.FC = () => {
   const { control, handleSubmit } = useForm({
@@ -38,40 +39,15 @@ const Login: React.FC = () => {
           <form onSubmit={handleSubmit(loginUser)}>
             <IonItem>
               <IonLabel position="floating">Korisnicko Ime</IonLabel>
-              <Controller
-                name="username"
-                control={control}
-                render={({ field }) => (
-                  <IonInput value={field.value} onIonChange={field.onChange} />
-                )}
-              />
+              <Input control={control} name="username" />
             </IonItem>
             <IonItem>
               <IonLabel position="floating">Lozinka</IonLabel>
-              <Controller
-                name="password"
-                control={control}
-                render={({ field }) => (
-                  <IonInput
-                    value={field.value}
-                    onIonChange={field.onChange}
-                    type="password"
-                  />
-                )}
-              />
+              <Input control={control} name="password" type="password" />
             </IonItem>
             <IonItem lines="none">
               <IonLabel>Zapamti me</IonLabel>
-              <Controller
-                name="rememberMe"
-                control={control}
-                render={({ field }) => (
-                  <IonCheckbox
-                    onChange={field.onChange}
-                    checked={field.value}
-                  />
-                )}
-              />
+              <Input control={control} name="rememberMe" inputType="checkbox" />
             </IonItem>
             <IonButton className="ion-margin-top" type="submit" expand="block">
               Prijavi se
