@@ -1,29 +1,28 @@
-import { Client } from "node-scp";
+import SftpUpload from "sftp-upload";
 
-const connectionSettings = {
-  host: "51.75.72.23",
-  port: 22,
-  username: "root",
-  password: process.argv[2],
-};
-const copyFrom = "./";
-const copyTo = "/root/kmk/web";
+const options = {
+    path: "./",
+    remoteDir: "/root/kmk/web",
+    excludedFolders: ["**/.git", "node_modules", "dist"],
+    exclude: [".gitignore", ".vscode/tasks.json"],
+    host: "51.75.72.23",
+    port: 22,
+    username: "root",
+    password: process.argv[2],
+    dryRun: false,
+  },
+  sftp = new SftpUpload(options);
 
-const transferDir = async (copyFrom, copyTo) => {
-  Client(connectionSettings)
-    .then((client) => {
-      console.log("Starting Upload...");
-      client
-        .uploadDir(copyFrom, copyTo)
-        .then((response) => {
-          client.close();
-          console.log("Transfer finished");
-        })
-        .catch((error) => {
-          throw error;
-        });
-    })
-    .catch((e) => console.error(e));
-};
+sftp
+  .on("error", function (err) {
+    throw err;
+  })
+  .on("uploading", function (progress) {
+    console.log("Uploading", progress.file);
+    console.log(progress.percent + "% completed");
+  })
+  .on("completed", function () {
+    console.log("Upload Completed");
+  })
 
-await transferDir(copyFrom, copyTo);
+  .upload();
