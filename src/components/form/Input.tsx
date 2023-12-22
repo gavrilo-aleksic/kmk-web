@@ -1,4 +1,10 @@
-import { IonCheckbox, IonInput, IonItem, IonLabel } from "@ionic/react";
+import {
+  IonCheckbox,
+  IonDatetime,
+  IonInput,
+  IonItem,
+  IonLabel,
+} from "@ionic/react";
 import { Control, Controller, FieldValues } from "react-hook-form";
 
 export type IonicInputProps = React.ComponentProps<typeof IonInput>;
@@ -34,7 +40,7 @@ const Input = ({
             default:
               return (
                 <IonInput
-                  value={field.value}
+                  value={field.value.toString()}
                   onIonChange={field.onChange}
                   {...rest}
                 />
