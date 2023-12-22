@@ -34,6 +34,8 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 import { QueryClient, QueryClientProvider } from "react-query";
+import AuthProvider, { AuthContext } from "./context/AuthContext";
+import { useContext } from "react";
 
 setupIonicReact();
 
@@ -42,40 +44,49 @@ const queryClient = new QueryClient();
 const App: React.FC = () => (
   <IonApp>
     <QueryClientProvider client={queryClient}>
-      <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            <Route exact path="/login">
-              <Login />
-            </Route>
-            <Route exact path="/home">
-              <Home />
-            </Route>
-            <Route path="/extra">
-              <Extra />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/home" />
-            </Route>
-          </IonRouterOutlet>
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="login" href="/login">
-              <IonIcon aria-hidden="true" icon={logIn} />
-              <IonLabel>Login</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="home" href="/home">
-              <IonIcon aria-hidden="true" icon={home} />
-              <IonLabel>Home</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="extra" href="/extra">
-              <IonIcon aria-hidden="true" icon={ellipsisHorizontal} />
-              <IonLabel>Extra</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
-      </IonReactRouter>
+      <AuthProvider>
+        <RouterWrapper />
+      </AuthProvider>
     </QueryClientProvider>
   </IonApp>
 );
 
+const RouterWrapper = () => {
+  const { isLoggedIn, userLoading } = useContext(AuthContext);
+  if (userLoading) return <></>;
+  return (
+    <IonReactRouter>
+      <IonTabs>
+        <IonRouterOutlet>
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <Route exact path="/home">
+            {isLoggedIn ? <Home /> : <Login />}
+          </Route>
+          <Route path="/extra">
+            <Extra />
+          </Route>
+          <Route exact path="/">
+            <Redirect to={isLoggedIn ? "/home" : "/login"} />
+          </Route>
+        </IonRouterOutlet>
+        <IonTabBar slot="bottom">
+          <IonTabButton tab="login" href="/login" disabled={isLoggedIn}>
+            <IonIcon aria-hidden="true" icon={logIn} />
+            <IonLabel>Login</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="home" href="/home" disabled={!isLoggedIn}>
+            <IonIcon aria-hidden="true" icon={home} />
+            <IonLabel>Home</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="extra" href="/extra" disabled>
+            <IonIcon aria-hidden="true" icon={ellipsisHorizontal} />
+            <IonLabel>Extra</IonLabel>
+          </IonTabButton>
+        </IonTabBar>
+      </IonTabs>
+    </IonReactRouter>
+  );
+};
 export default App;

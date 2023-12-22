@@ -11,9 +11,9 @@ import {
 import "./Login.css";
 import { useForm } from "react-hook-form";
 import Input from "../../components/form/Input";
-import { useMutation } from "react-query";
-import { loginFn } from "../../api/api";
 import { useHistory } from "react-router";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const Login: React.FC = () => {
   const { control, handleSubmit } = useForm({
@@ -23,17 +23,15 @@ const Login: React.FC = () => {
       rememberMe: true,
     },
   });
-  const { replace } = useHistory();
-  const { isLoading, mutate, error, data } = useMutation(loginFn, {
-    onSuccess: () => {
-      replace("/home");
-    },
-  });
+  const { push } = useHistory();
+  const { login, error, loginResponse, loginLoading, isLoggedIn, isLoading } =
+    useContext(AuthContext);
 
   const loginUser = (data: any) => {
-    mutate(data);
+    login(data);
   };
 
+  if (isLoggedIn && !error && !isLoading) push("home");
   return (
     <IonPage>
       <IonHeader>
@@ -67,7 +65,7 @@ const Login: React.FC = () => {
               className="ion-margin-top"
               type="submit"
               expand="block"
-              disabled={isLoading}
+              disabled={loginLoading}
             >
               Prijavi se
             </IonButton>
@@ -83,7 +81,7 @@ const Login: React.FC = () => {
           color="success"
           message="Uspesna prijava"
           duration={5000}
-          isOpen={!!data}
+          isOpen={!!loginResponse}
         />
       </IonContent>
     </IonPage>
