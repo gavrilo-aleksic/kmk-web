@@ -2,7 +2,7 @@ import axios from "axios";
 import { LoginModel, UserModel } from "./types";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: import.meta.env.VITE_API_ROUTE,
 });
 
 axiosInstance.interceptors.request.use((config) => {
