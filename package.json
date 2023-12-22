@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "local": "vite --mode dev",
-    "remote": "vite --mode staging",
+    "remote": "vite --mode staging --host",
     "build": "vite build",
     "preview": "vite preview",
     "test.e2e": "cypress run",
