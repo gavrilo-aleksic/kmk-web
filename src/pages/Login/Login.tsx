@@ -1,19 +1,19 @@
 import {
   IonButton,
   IonCard,
-  IonCheckbox,
   IonContent,
   IonHeader,
-  IonInput,
-  IonItem,
-  IonLabel,
   IonPage,
   IonTitle,
+  IonToast,
   IonToolbar,
 } from "@ionic/react";
 import "./Login.css";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Input from "../../components/form/Input";
+import { useMutation } from "react-query";
+import { loginFn } from "../../api/api";
+import { useHistory } from "react-router";
 
 const Login: React.FC = () => {
   const { control, handleSubmit } = useForm({
@@ -23,10 +23,17 @@ const Login: React.FC = () => {
       rememberMe: true,
     },
   });
+  const { replace } = useHistory();
+  const { isLoading, mutate, error, data } = useMutation(loginFn, {
+    onSuccess: () => {
+      replace("/home");
+    },
+  });
 
   const loginUser = (data: any) => {
-    console.log("creating a new user account with: ", data);
+    mutate(data);
   };
+
   return (
     <IonPage>
       <IonHeader>
@@ -37,23 +44,47 @@ const Login: React.FC = () => {
       <IonContent fullscreen>
         <IonCard>
           <form onSubmit={handleSubmit(loginUser)}>
-            <IonItem>
-              <IonLabel position="floating">Korisnicko Ime</IonLabel>
-              <Input control={control} name="username" />
-            </IonItem>
-            <IonItem>
-              <IonLabel position="floating">Lozinka</IonLabel>
-              <Input control={control} name="password" type="password" />
-            </IonItem>
-            <IonItem lines="none">
-              <IonLabel>Zapamti me</IonLabel>
-              <Input control={control} name="rememberMe" inputType="checkbox" />
-            </IonItem>
-            <IonButton className="ion-margin-top" type="submit" expand="block">
+            <Input
+              control={control}
+              name="username"
+              required
+              label="Korisnicko ime"
+            />
+            <Input
+              control={control}
+              label="lozinka"
+              name="password"
+              type="password"
+              required
+            />
+            <Input
+              control={control}
+              name="rememberMe"
+              inputType="checkbox"
+              label="Zapamti me"
+            />
+            <IonButton
+              className="ion-margin-top"
+              type="submit"
+              expand="block"
+              disabled={isLoading}
+            >
               Prijavi se
             </IonButton>
           </form>
         </IonCard>
+        <IonToast
+          color="danger"
+          message="Greska prilikom prijave"
+          duration={5000}
+          isOpen={!!error}
+        />
+        <IonToast
+          color="success"
+          message="Uspesna prijava"
+          duration={5000}
+          isOpen={!!data}
+        />
       </IonContent>
     </IonPage>
   );
