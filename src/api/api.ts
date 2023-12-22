@@ -27,4 +27,6 @@ export const loginFn = ({
 
 export const getUserFn = () => axiosInstance.get<UserModel>("/user");
 
+export const getUsersFn = () => axiosInstance.get<string[]>("/users");
+
 export default axiosInstance;

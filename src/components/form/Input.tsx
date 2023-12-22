@@ -4,6 +4,8 @@ import {
   IonInput,
   IonItem,
   IonLabel,
+  IonSelect,
+  IonSelectOption,
 } from "@ionic/react";
 import { Control, Controller, FieldValues } from "react-hook-form";
 
@@ -13,12 +15,14 @@ const Input = ({
   control,
   inputType,
   label,
+  options,
   ...rest
 }: {
   name: string;
   control: Control<any>;
-  inputType?: "text" | "checkbox";
+  inputType?: "text" | "checkbox" | "select";
   label: string;
+  options?: { label: string; value: string }[];
 } & IonicInputProps) => {
   return (
     <IonItem lines={inputType === "checkbox" ? "none" : undefined}>
@@ -36,6 +40,19 @@ const Input = ({
                   onIonChange={() => field.onChange(!field.value)}
                   checked={field.value}
                 />
+              );
+            case "select":
+              return (
+                <IonSelect
+                  onIonChange={field.onChange}
+                  value={field.value.toString()}
+                >
+                  {options?.map((e) => (
+                    <IonSelectOption key={e.value} value={e.value}>
+                      {e.label}
+                    </IonSelectOption>
+                  ))}
+                </IonSelect>
               );
             default:
               return (

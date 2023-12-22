@@ -14,6 +14,8 @@ import Input from "../../components/form/Input";
 import { useHistory } from "react-router";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { useQuery } from "react-query";
+import { getUsersFn } from "../../api/api";
 
 const Login: React.FC = () => {
   const { control, handleSubmit } = useForm({
@@ -23,6 +25,11 @@ const Login: React.FC = () => {
       rememberMe: true,
     },
   });
+  const { data: users, isLoading: usersLoading } = useQuery(
+    "USERS",
+    getUsersFn
+  );
+
   const { push } = useHistory();
   const { login, error, loginResponse, loginLoading, isLoggedIn, isLoading } =
     useContext(AuthContext);
@@ -47,6 +54,11 @@ const Login: React.FC = () => {
               name="username"
               required
               label="Korisnicko ime"
+              inputType="select"
+              options={users?.data.map((e) => ({
+                label: e,
+                value: e,
+              }))}
             />
             <Input
               control={control}
