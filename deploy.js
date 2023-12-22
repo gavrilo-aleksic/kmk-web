@@ -1,18 +1,18 @@
-import scp from "node-scp";
+import { Client } from "node-scp";
 
 const connectionSettings = {
   host: "51.75.72.23",
   port: 22,
-  username: "ratko",
-  password: "kmk",
+  username: "root",
+  password: process.argv[2],
 };
-
 const copyFrom = "./";
-const copyTo = "/kmk/web";
+const copyTo = "/root/kmk/web";
 
-const send_folder_using_promise = (copyFrom, copyTo) => {
-  scp(connectionSettings)
+const transferDir = async (copyFrom, copyTo) => {
+  Client(connectionSettings)
     .then((client) => {
+      console.log("Starting Upload...");
       client
         .uploadDir(copyFrom, copyTo)
         .then((response) => {
@@ -26,4 +26,4 @@ const send_folder_using_promise = (copyFrom, copyTo) => {
     .catch((e) => console.error(e));
 };
 
-send_folder_using_promise(copyFrom, copyTo);
+await transferDir(copyFrom, copyTo);
