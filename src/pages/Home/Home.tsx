@@ -15,7 +15,8 @@ import Filter from "./Filter/Filter";
 import { useRef, useState } from "react";
 import { getExpensesFn } from "../../api/api";
 import { useQuery } from "react-query";
-import { subDays, subMonths } from "date-fns";
+import { subMonths } from "date-fns";
+import ExpensesTable from "./ExpensesTable/ExpensesTable";
 
 const Home: React.FC = () => {
   const menuRef = useRef<any>();
@@ -23,11 +24,6 @@ const Home: React.FC = () => {
     from: subMonths(new Date(), 1),
     to: new Date(),
   });
-
-  const { data, isLoading, error } = useQuery(
-    ["EXPENSES", dates.from, dates.to],
-    () => getExpensesFn(dates.from, dates.to)
-  );
 
   return (
     <>
@@ -56,15 +52,7 @@ const Home: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent id="main-content" fullscreen>
-          {isLoading && (
-            <IonSpinner name="circles" className="spinner-page-center" />
-          )}
-          <IonToast
-            color="danger"
-            message="Doslo je do greske"
-            duration={3000}
-            isOpen={!!error}
-          />
+          <ExpensesTable from={dates.from} to={dates.to} />
         </IonContent>
       </IonPage>
     </>

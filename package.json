@@ -27,6 +27,7 @@
     "ionicons": "^7.0.0",
     "node-scp": "^0.0.23",
     "react": "^18.2.0",
+    "react-data-grid": "^7.0.0-beta.41",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.2",
     "react-query": "^3.39.3",
