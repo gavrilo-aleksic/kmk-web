@@ -1,4 +1,5 @@
 import {
+  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
@@ -14,15 +15,13 @@ import "./Home.css";
 import Filter from "./Filter/Filter";
 import { useRef, useState } from "react";
 import { subMonths } from "date-fns";
-import ExpensesTable from "./ExpensesTable/ExpensesTable";
+import ExpensesTable from "./Expenses/ExpensesTable";
 import { ExpenseQueryModel } from "../../api/types";
+import Expenses from "./Expenses/Expenses";
 
 const Home: React.FC = () => {
   const menuRef = useRef<any>();
-  const [dates, setDates] = useState({
-    from: subMonths(new Date(), 1),
-    to: new Date(),
-  });
+
   const [selectedExpense, setSelectedExpense] = useState<ExpenseQueryModel>();
 
   return (
@@ -52,11 +51,7 @@ const Home: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent id="main-content" fullscreen>
-          <ExpensesTable
-            from={dates.from}
-            to={dates.to}
-            onSelectChange={(e) => setSelectedExpense(e)}
-          />
+          <Expenses onSelectChange={setSelectedExpense} />
         </IonContent>
       </IonPage>
     </>

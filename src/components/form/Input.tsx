@@ -16,19 +16,30 @@ const Input = ({
   inputType,
   label,
   options,
+  labelPosition,
+  hideLabel,
+  value,
   ...rest
 }: {
   name: string;
-  control: Control<any>;
+  control?: Control<any>;
   inputType?: "text" | "checkbox" | "select";
   label: string;
-  options?: { label: string; value: string }[];
+  options?: { label: string; value: string | number }[];
+  labelPosition?: "fixed" | "floating" | "stacked";
+  hideLabel?: boolean;
 } & IonicInputProps) => {
   return (
     <IonItem lines={inputType === "checkbox" ? "none" : undefined}>
-      <IonLabel position={inputType !== "checkbox" ? "floating" : undefined}>
-        {label}
-      </IonLabel>
+      {!hideLabel && (
+        <IonLabel
+          position={
+            inputType !== "checkbox" ? "floating" : labelPosition || undefined
+          }
+        >
+          {label}
+        </IonLabel>
+      )}
       <Controller
         name={rest.name}
         control={control}
@@ -45,7 +56,7 @@ const Input = ({
               return (
                 <IonSelect
                   onIonChange={field.onChange}
-                  value={field.value.toString()}
+                  value={value || field.value}
                 >
                   {options?.map((e) => (
                     <IonSelectOption key={e.value} value={e.value}>
@@ -57,7 +68,7 @@ const Input = ({
             default:
               return (
                 <IonInput
-                  value={field.value.toString()}
+                  value={value || field.value.toString()}
                   onIonChange={field.onChange}
                   {...rest}
                 />
