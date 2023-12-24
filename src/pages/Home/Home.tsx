@@ -24,7 +24,7 @@ const Home: React.FC = () => {
     to: new Date(),
   });
   const [selectedExpense, setSelectedExpense] = useState<ExpenseQueryModel>();
-  console.log(selectedExpense);
+
   return (
     <>
       <IonMenu contentId="main-content" ref={menuRef}>
