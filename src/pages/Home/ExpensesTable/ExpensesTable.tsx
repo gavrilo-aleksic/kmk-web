@@ -1,10 +1,42 @@
 import { useQuery } from "react-query";
 import { getExpensesFn } from "../../../api/api";
-import DataGrid from "react-data-grid";
+import DataGrid, { ColumnOrColumnGroup } from "react-data-grid";
 import { IonSpinner, IonToast } from "@ionic/react";
 import { formatDate } from "../../../utils/format/date";
+import { ExpenseQueryModel } from "../../../api/types";
 
-const ExpensesTable = ({ from, to }: { from: Date; to: Date }) => {
+const columnsDefinition: ColumnOrColumnGroup<
+  {
+    datum_rashoda: string;
+    id_rashoda?: number | undefined;
+    naziv_parcele?: string | undefined;
+    naziv_kulture?: Date | undefined;
+    naziv_masine?: string | undefined;
+    naziv_operacije?: string | undefined;
+    sifra_masine?: string | undefined;
+    sifra_parcele?: string | undefined;
+    sifra_kulture?: string | undefined;
+    sifra_operacije?: string | undefined;
+  },
+  unknown
+>[] = [
+  { key: "id_rashoda", name: "ID" },
+  { key: "datum_rashoda", name: "Datum" },
+  { key: "naziv_parcele", name: "Parcela", editable: true },
+  { key: "naziv_masine", name: "Masina" },
+  { key: "sifra_kulture", name: "Kultura" },
+  { key: "naziv_operacije", name: "Operacija" },
+];
+
+const ExpensesTable = ({
+  from,
+  to,
+  onSelectChange,
+}: {
+  from: Date;
+  to: Date;
+  onSelectChange: (e: ExpenseQueryModel) => void;
+}) => {
   const { data, isLoading, error } = useQuery(["EXPENSES", from, to], () =>
     getExpensesFn(from, to)
   );
@@ -13,14 +45,7 @@ const ExpensesTable = ({ from, to }: { from: Date; to: Date }) => {
     <>
       <DataGrid
         style={{ zoom: 0.8 }}
-        columns={[
-          { key: "id_rashoda", name: "ID" },
-          { key: "datum_rashoda", name: "Datum" },
-          { key: "naziv_parcele", name: "Parcela" },
-          { key: "naziv_masine", name: "Masina" },
-          { key: "sifra_kulture", name: "Kultura" },
-          { key: "naziv_operacije", name: "Operacija" },
-        ]}
+        columns={columnsDefinition}
         rows={
           data?.data.map((e) => ({
             ...e,
