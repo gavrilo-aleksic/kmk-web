@@ -1,13 +1,11 @@
 import {
   IonCheckbox,
-  IonDatetime,
   IonInput,
   IonItem,
-  IonLabel,
   IonSelect,
   IonSelectOption,
 } from "@ionic/react";
-import { Control, Controller, FieldValues } from "react-hook-form";
+import { Control, Controller } from "react-hook-form";
 
 export type IonicInputProps = React.ComponentProps<typeof IonInput>;
 
@@ -31,15 +29,6 @@ const Input = ({
 } & IonicInputProps) => {
   return (
     <IonItem lines={inputType === "checkbox" ? "none" : undefined}>
-      {!hideLabel && (
-        <IonLabel
-          position={
-            inputType !== "checkbox" ? "floating" : labelPosition || undefined
-          }
-        >
-          {label}
-        </IonLabel>
-      )}
       <Controller
         name={rest.name}
         control={control}
@@ -47,14 +36,20 @@ const Input = ({
           switch (inputType) {
             case "checkbox":
               return (
-                <IonCheckbox
-                  onIonChange={() => field.onChange(!field.value)}
-                  checked={field.value}
-                />
+                <>
+                  <IonCheckbox
+                    onIonChange={() => field.onChange(!field.value)}
+                    checked={field.value}
+                  >
+                    {label}
+                  </IonCheckbox>
+                </>
               );
             case "select":
               return (
                 <IonSelect
+                  label={label}
+                  labelPlacement="floating"
                   onIonChange={field.onChange}
                   value={value || field.value}
                   {...(rest as any)}
@@ -69,6 +64,8 @@ const Input = ({
             default:
               return (
                 <IonInput
+                  label={label}
+                  labelPlacement="floating"
                   value={value || field.value.toString()}
                   onIonChange={field.onChange}
                   {...rest}
