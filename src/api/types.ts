@@ -50,3 +50,18 @@ export class PortionQueryModel {
   ts?: Date;
   sifra_korisnika?: number;
 }
+
+export class UsagesWorkerQueryModel {
+  cas?: number;
+  ucinak?: number;
+  zastoj?: number;
+  cas_ucinak?: number;
+  cas_cena?: number;
+  pov_ucinak?: number;
+  cas_zastoj?: number;
+  ime_i_prezime_radnika?: string;
+  naziv_tipa_rada?: string;
+  sifra_radnika?: number;
+  sifra_tip_rada?: number;
+  id_rashodi_radnici?: number;
+}

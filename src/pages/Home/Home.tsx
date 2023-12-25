@@ -1,23 +1,19 @@
 import {
-  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
   IonMenu,
   IonMenuButton,
   IonPage,
-  IonSpinner,
   IonTitle,
-  IonToast,
   IonToolbar,
 } from "@ionic/react";
 import "./Home.css";
 import Filter from "./Filter/Filter";
 import { useRef, useState } from "react";
-import { subMonths } from "date-fns";
-import ExpensesTable from "./Expenses/ExpensesTable";
 import { ExpenseQueryModel } from "../../api/types";
 import Expenses from "./Expenses/Expenses";
+import UsagesWorker from "./UsagesWorker/UsagesWorker";
 
 const Home: React.FC = () => {
   const menuRef = useRef<any>();
@@ -52,6 +48,7 @@ const Home: React.FC = () => {
         </IonHeader>
         <IonContent id="main-content" fullscreen>
           <Expenses onSelectChange={setSelectedExpense} />
+          <UsagesWorker utrosakId={selectedExpense?.id_rashoda} />
         </IonContent>
       </IonPage>
     </>

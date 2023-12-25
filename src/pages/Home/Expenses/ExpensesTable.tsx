@@ -61,33 +61,31 @@ const ExpensesTable = ({
   );
 
   return (
-    <>
-      <div
-        className="ag-theme-quartz"
-        style={{ height: 300, width: "100%", zoom: "0.9" }}
-      >
-        <AgGridReact
-          rowSelection="single"
-          onRowSelected={(row: any) => {
-            if (!row.node.selected) return;
-            onSelectChange(
-              data?.find((e) => e.id_rashoda === row.data?.id_rashoda)!!
-            );
-          }}
-          columnDefs={columnDefs}
-          rowData={rowData}
-        />
-        {isLoading && (
-          <IonSpinner name="circles" className="spinner-page-center" />
-        )}
-        <IonToast
-          color="danger"
-          message="Doslo je do greske"
-          duration={3000}
-          isOpen={!!error}
-        />
-      </div>
-    </>
+    <div
+      className="ag-theme-quartz"
+      style={{ height: 300, width: "100%", zoom: "0.9" }}
+    >
+      <AgGridReact
+        rowSelection="single"
+        onRowSelected={(row: any) => {
+          if (!row.node.selected) return;
+          onSelectChange(
+            data?.find((e) => e.id_rashoda === row.data?.id_rashoda)!!
+          );
+        }}
+        columnDefs={columnDefs}
+        rowData={rowData}
+      />
+      {isLoading && (
+        <IonSpinner name="circles" className="spinner-page-center" />
+      )}
+      <IonToast
+        color="danger"
+        message="Doslo je do greske"
+        duration={3000}
+        isOpen={!!error}
+      />
+    </div>
   );
 };
 

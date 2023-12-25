@@ -6,6 +6,7 @@ import {
   MachineQueryModel,
   OperationQueryModel,
   PortionQueryModel,
+  UsagesWorkerQueryModel,
   UserModel,
 } from "./types";
 import { formatDate } from "../utils/format/date";
@@ -57,5 +58,10 @@ export const getExpensesFn = (dateFrom: Date, dateTo: Date) =>
         datum_rashoda: formatDate(e.datum_rashoda!!),
       }))
     );
+
+export const getUsagesWorkerFn = (utrosakId: string | number) =>
+  axiosInstance.get<UsagesWorkerQueryModel[]>("/query/utrosak-radnik", {
+    params: { utrosakId },
+  });
 
 export default axiosInstance;

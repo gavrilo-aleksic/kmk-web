@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonGrid, IonRow } from "@ionic/react";
+import { IonButton, IonCol, IonGrid, IonLabel, IonRow } from "@ionic/react";
 import { useCallback, useEffect, useState } from "react";
 import { ExpenseQueryModel } from "../../../api/types";
 import ExpensesTable from "./ExpensesTable";
@@ -48,7 +48,7 @@ const Expenses = ({
 
   const editDisabled = !editExpense || !expense;
   return (
-    <div>
+    <div className="content-card">
       <form onSubmit={handleSubmit(submitCallback)}>
         <IonGrid>
           <IonRow>
