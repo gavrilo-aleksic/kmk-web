@@ -4,7 +4,7 @@ import { IonSpinner, IonToast } from "@ionic/react";
 import { AgGridReact } from "ag-grid-react";
 import { UsagesWorkerQueryModel } from "../../../api/types";
 
-const numericCellWidth = 120;
+const numericCellWidth = 110;
 
 const columnDefs: any = [
   {

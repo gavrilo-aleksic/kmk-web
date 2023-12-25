@@ -16,7 +16,7 @@ const columnDefs: any = [
   {
     field: "datum_rashoda",
     headerName: "Datum",
-    width: 150,
+    width: 120,
   },
   {
     field: "naziv_parcele",

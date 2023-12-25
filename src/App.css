@@ -10,4 +10,7 @@
 
 .content-card {
   padding: 10px;
+  border: 0.5px solid lightgray;
+  border-radius: 10px;
+  margin: 10px 10px;
 }
