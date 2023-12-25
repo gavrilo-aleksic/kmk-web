@@ -77,29 +77,68 @@ const UsagesWoker = ({ utrosakId }: { utrosakId?: number }) => {
               disabled={editDisabled}
             />
           </IonCol>
+        </IonRow>
+        <IonRow>
           <IonCol>
-            <IonCol>
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <IonButton size="small" disabled={!edit}>
-                  Prihvati
-                </IonButton>
-                <IonButton
-                  size="small"
-                  disabled={!edit}
-                  fill="outline"
-                  onClick={() => setEdit(false)}
-                >
-                  Odustani
-                </IonButton>
-                <IonButton
-                  size="small"
-                  disabled={!model}
-                  onClick={() => setEdit(true)}
-                >
-                  Izmeni
-                </IonButton>
-              </div>
-            </IonCol>
+            <Input
+              control={control}
+              label="Cas Cena"
+              type="number"
+              name={"cas_cena"}
+              disabled={editDisabled}
+            />
+          </IonCol>
+          <IonCol>
+            <Input
+              control={control}
+              label="Cas Ucinak"
+              name={"cas_ucinak"}
+              type="number"
+              disabled={editDisabled}
+            />
+          </IonCol>
+          <IonCol>
+            <Input
+              control={control}
+              label="Cas Zastoj"
+              name={"cas_zastoj"}
+              type="number"
+              disabled={editDisabled}
+            />
+          </IonCol>
+          <IonCol>
+            <Input
+              control={control}
+              label="Radnik"
+              name={"sifra_radnika"}
+              inputType="select"
+              options={[]}
+              disabled={editDisabled}
+            />
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <IonButton size="small" disabled={!edit}>
+                Prihvati
+              </IonButton>
+              <IonButton
+                size="small"
+                disabled={!edit}
+                fill="outline"
+                onClick={() => setEdit(false)}
+              >
+                Odustani
+              </IonButton>
+              <IonButton
+                size="small"
+                disabled={!model}
+                onClick={() => setEdit(true)}
+              >
+                Izmeni
+              </IonButton>
+            </div>
           </IonCol>
         </IonRow>
       </IonGrid>

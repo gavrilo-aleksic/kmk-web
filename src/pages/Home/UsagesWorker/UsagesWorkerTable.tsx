@@ -48,8 +48,8 @@ const columnDefs: any = [
     width: numericCellWidth - 20,
   },
   {
-    field: "ID",
-    headerName: "id_rashodi_radnici",
+    field: "id_rashodi_radnici",
+    headerName: "ID",
   },
 ];
 
