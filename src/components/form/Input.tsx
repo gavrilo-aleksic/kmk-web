@@ -57,6 +57,7 @@ const Input = ({
                 <IonSelect
                   onIonChange={field.onChange}
                   value={value || field.value}
+                  {...(rest as any)}
                 >
                   {options?.map((e) => (
                     <IonSelectOption key={e.value} value={e.value}>

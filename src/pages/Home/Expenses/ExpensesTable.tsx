@@ -64,7 +64,7 @@ const ExpensesTable = ({
     <>
       <div
         className="ag-theme-quartz"
-        style={{ height: 500, width: "100%", zoom: "0.8" }}
+        style={{ height: 300, width: "100%", zoom: "0.9" }}
       >
         <AgGridReact
           rowSelection="single"

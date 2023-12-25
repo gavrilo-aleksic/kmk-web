@@ -42,6 +42,11 @@ const Expenses = ({
     console.log(e);
   }, []);
 
+  useEffect(() => {
+    setEditExpense(false);
+  }, [expense]);
+
+  const editDisabled = !editExpense || !expense;
   return (
     <div>
       <form onSubmit={handleSubmit(submitCallback)}>
@@ -53,6 +58,7 @@ const Expenses = ({
                 label="Datum"
                 type="date"
                 name={"datum_rashoda"}
+                disabled={editDisabled}
               />
             </IonCol>
             <IonCol>
@@ -67,10 +73,9 @@ const Expenses = ({
                     value: e.sifra_operacije!!,
                   })) || []
                 }
+                disabled={editDisabled}
               />
             </IonCol>
-          </IonRow>
-          <IonRow>
             <IonCol>
               <Input
                 control={control}
@@ -83,8 +88,11 @@ const Expenses = ({
                     value: e.sifra_kulture!!,
                   })) || []
                 }
+                disabled={editDisabled}
               />
             </IonCol>
+          </IonRow>
+          <IonRow>
             <IonCol>
               <Input
                 control={control}
@@ -97,6 +105,7 @@ const Expenses = ({
                     value: e.sifra_masine!!,
                   })) || []
                 }
+                disabled={editDisabled}
               />
             </IonCol>
             <IonCol>
@@ -111,26 +120,34 @@ const Expenses = ({
                     value: e.sifra_parcele!!,
                   })) || []
                 }
+                disabled={editDisabled}
               />
+            </IonCol>
+            <IonCol>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <IonButton size="small" disabled={!editExpense}>
+                  Prihvati
+                </IonButton>
+                <IonButton
+                  size="small"
+                  disabled={!editExpense}
+                  fill="outline"
+                  onClick={() => setEditExpense(false)}
+                >
+                  Odustani
+                </IonButton>
+                <IonButton
+                  size="small"
+                  disabled={!expense}
+                  onClick={() => setEditExpense(true)}
+                >
+                  Izmeni
+                </IonButton>
+              </div>
             </IonCol>
           </IonRow>
         </IonGrid>
       </form>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <IonButton size="small" disabled={!editExpense}>
-          Prihvati
-        </IonButton>
-        <IonButton size="small" disabled={!editExpense} fill="outline">
-          Odustani
-        </IonButton>
-        <IonButton
-          size="small"
-          disabled={editExpense}
-          onClick={() => setEditExpense(false)}
-        >
-          Izmeni
-        </IonButton>
-      </div>
       <ExpensesTable
         from={dates.from}
         to={dates.to}
