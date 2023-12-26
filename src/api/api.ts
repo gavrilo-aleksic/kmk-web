@@ -6,8 +6,12 @@ import {
   MachineQueryModel,
   OperationQueryModel,
   PortionQueryModel,
+  ExpenseUsageQueryModel,
   UsagesWorkerQueryModel,
   UserModel,
+  WorkTypeQueryModel,
+  WorkerQueryModel,
+  ExpenditureQueryModel,
 } from "./types";
 import { formatDate } from "../utils/format/date";
 
@@ -45,6 +49,9 @@ export const getEntitiesFn = () =>
     kulture: CultureQueryModel[];
     masine: MachineQueryModel[];
     parcele: PortionQueryModel[];
+    tipoviRada: WorkTypeQueryModel[];
+    radnici: WorkerQueryModel[];
+    utrosci: ExpenditureQueryModel[];
   }>("/query/entiteti");
 
 export const getExpensesFn = (dateFrom: Date, dateTo: Date) =>
@@ -61,6 +68,11 @@ export const getExpensesFn = (dateFrom: Date, dateTo: Date) =>
 
 export const getUsagesWorkerFn = (utrosakId: string | number) =>
   axiosInstance.get<UsagesWorkerQueryModel[]>("/query/utrosak-radnik", {
+    params: { utrosakId },
+  });
+
+export const getUsagesFn = (utrosakId: string | number) =>
+  axiosInstance.get<ExpenseUsageQueryModel[]>("/query/utrosak", {
     params: { utrosakId },
   });
 

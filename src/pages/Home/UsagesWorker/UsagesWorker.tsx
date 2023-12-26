@@ -4,10 +4,14 @@ import { UsagesWorkerQueryModel } from "../../../api/types";
 import UsagesWorkerTable from "./UsagesWorkerTable";
 import { IonGrid, IonRow, IonCol, IonButton, IonLabel } from "@ionic/react";
 import Input from "../../../components/form/Input";
+import { useQuery } from "react-query";
+import { getEntitiesFn } from "../../../api/api";
 
 const UsagesWoker = ({ utrosakId }: { utrosakId?: number }) => {
   const [edit, setEdit] = useState(false);
   const [model, setModel] = useState<UsagesWorkerQueryModel | null>(null);
+  const { data, isLoading } = useQuery("ENTITIES", getEntitiesFn);
+
   const { control, handleSubmit } = useForm<UsagesWorkerQueryModel>({
     defaultValues: {
       cas: 0,
@@ -73,7 +77,13 @@ const UsagesWoker = ({ utrosakId }: { utrosakId?: number }) => {
               label="Vrsta Rada"
               name={"sifra_tip_rada"}
               inputType="select"
-              options={[]}
+              options={
+                data?.data.tipoviRada.map((e) => ({
+                  label:
+                    e.naziv_tipa_rada || e.sifra_tip_rada?.toString() || "-",
+                  value: e.sifra_tip_rada!!,
+                })) || []
+              }
               disabled={editDisabled}
             />
           </IonCol>
@@ -112,12 +122,29 @@ const UsagesWoker = ({ utrosakId }: { utrosakId?: number }) => {
               label="Radnik"
               name={"sifra_radnika"}
               inputType="select"
-              options={[]}
+              options={
+                data?.data.radnici.map((e) => ({
+                  label:
+                    e.ime_i_prezime_radnika ||
+                    e.sifra_radnika?.toString() ||
+                    "-",
+                  value: e.sifra_radnika!!,
+                })) || []
+              }
               disabled={editDisabled}
             />
           </IonCol>
         </IonRow>
         <IonRow>
+          <IonCol size="3">
+            <Input
+              control={control}
+              label="Povrsina"
+              name={"pov_ucinak"}
+              type="number"
+              disabled={editDisabled}
+            />
+          </IonCol>
           <IonCol>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <IonButton size="small" disabled={!edit}>

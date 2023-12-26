@@ -33,7 +33,7 @@ const columnDefs: any = [
     field: "cena_ucinak",
     headerName: "Cena Učinak",
     type: "numericColumn",
-    width: numericCellWidth,
+    width: numericCellWidth + 50,
   },
   {
     field: "pov_ucinak",
@@ -73,6 +73,7 @@ const UsagesWorkerTable = ({
       style={{ height: 300, width: "100%", zoom: "0.9" }}
     >
       <AgGridReact
+        suppressMovableColumns
         rowSelection="single"
         onRowSelected={(row: any) => {
           if (!row.node.selected) return;

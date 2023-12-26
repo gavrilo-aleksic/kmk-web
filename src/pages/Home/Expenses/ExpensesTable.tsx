@@ -66,6 +66,7 @@ const ExpensesTable = ({
       style={{ height: 300, width: "100%", zoom: "0.9" }}
     >
       <AgGridReact
+        suppressMovableColumns
         rowSelection="single"
         onRowSelected={(row: any) => {
           if (!row.node.selected) return;

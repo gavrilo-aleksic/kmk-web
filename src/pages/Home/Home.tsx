@@ -9,11 +9,11 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import "./Home.css";
-import Filter from "./Filter/Filter";
 import { useRef, useState } from "react";
 import { ExpenseQueryModel } from "../../api/types";
 import Expenses from "./Expenses/Expenses";
 import UsagesWorker from "./UsagesWorker/UsagesWorker";
+import ExpenseUsage from "./ExpenseUsage/ExpenseUsage";
 
 const Home: React.FC = () => {
   const menuRef = useRef<any>();
@@ -28,14 +28,7 @@ const Home: React.FC = () => {
             <IonTitle>Menu Content</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent className="ion-padding">
-          <Filter
-            onSubmit={(e) => {
-              console.log(e);
-              menuRef.current?.close();
-            }}
-          />
-        </IonContent>
+        <IonContent className="ion-padding">TODO</IonContent>
       </IonMenu>
       <IonPage>
         <IonHeader>
@@ -49,6 +42,7 @@ const Home: React.FC = () => {
         <IonContent id="main-content" fullscreen>
           <Expenses onSelectChange={setSelectedExpense} />
           <UsagesWorker utrosakId={selectedExpense?.id_rashoda} />
+          <ExpenseUsage utrosakId={selectedExpense?.id_rashoda} />
         </IonContent>
       </IonPage>
     </>

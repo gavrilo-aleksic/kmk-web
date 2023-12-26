@@ -65,3 +65,32 @@ export class UsagesWorkerQueryModel {
   sifra_tip_rada?: number;
   id_rashodi_radnici?: number;
 }
+
+export class WorkTypeQueryModel {
+  sifra_tip_rada?: string;
+  naziv_tipa_rada?: string;
+  ts?: Date;
+  sifra_korisnika?: number;
+  koeficijent?: number;
+}
+export class WorkerQueryModel {
+  sifra_radnika?: string;
+  ime_i_prezime_radnika?: string;
+  ts?: Date;
+  sifra_korisnika?: number;
+}
+
+export class ExpenseUsageQueryModel {
+  kolicina_utroska?: number;
+  sifra_utroska?: string;
+  naziv_utroska?: string;
+  id_rashodi_utrosci?: number;
+}
+
+export class ExpenditureQueryModel {
+  sifra_utroska?: string;
+  jm_utroska?: string;
+  naziv_utroska?: string;
+  ts?: Date;
+  sifra_korisnika?: number;
+}
