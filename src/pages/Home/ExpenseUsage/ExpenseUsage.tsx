@@ -62,8 +62,8 @@ const ExpenseUsage = ({ utrosakId }: { utrosakId?: number }) => {
           </IonCol>
         </IonRow>
         <IonRow>
-          <IonCol>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <IonCol className="control-buttons-col">
+            <div className="control-buttons">
               <IonButton size="small" disabled={!edit}>
                 Prihvati
               </IonButton>

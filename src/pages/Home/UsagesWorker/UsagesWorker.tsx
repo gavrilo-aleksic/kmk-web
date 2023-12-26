@@ -145,8 +145,8 @@ const UsagesWoker = ({ utrosakId }: { utrosakId?: number }) => {
               disabled={editDisabled}
             />
           </IonCol>
-          <IonCol>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <IonCol className="control-buttons-col">
+            <div className="control-buttons">
               <IonButton size="small" disabled={!edit}>
                 Prihvati
               </IonButton>

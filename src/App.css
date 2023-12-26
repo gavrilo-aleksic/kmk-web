@@ -14,3 +14,13 @@
   border-radius: 10px;
   margin: 10px 10px;
 }
+
+.control-buttons-col {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.control-buttons {
+  display: flex; justify-content: flex-end
+}

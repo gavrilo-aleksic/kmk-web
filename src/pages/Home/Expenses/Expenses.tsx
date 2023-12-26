@@ -123,8 +123,8 @@ const Expenses = ({
                 disabled={editDisabled}
               />
             </IonCol>
-            <IonCol>
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <IonCol className="control-buttons-col">
+              <div className="control-buttons">
                 <IonButton size="small" disabled={!editExpense}>
                   Prihvati
                 </IonButton>
