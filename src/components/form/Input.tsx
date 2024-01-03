@@ -28,10 +28,7 @@ const Input = ({
   hideLabel?: boolean;
 } & IonicInputProps) => {
   return (
-    <IonItem
-      lines={inputType === "checkbox" ? "none" : undefined}
-      style={{ zoom: "0.8" }}
-    >
+    <IonItem lines={inputType === "checkbox" ? "none" : undefined}>
       <Controller
         name={rest.name}
         control={control}

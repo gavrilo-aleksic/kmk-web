@@ -33,7 +33,7 @@ const ExpenseUsage = ({ utrosakId }: { utrosakId?: number }) => {
   const editDisabled = !edit || !model;
   return (
     <div className="content-card">
-      <h6>Utrosak po radniku</h6>
+      <h6>Ostali utrosak</h6>
       <IonGrid>
         <IonRow>
           <IonCol>

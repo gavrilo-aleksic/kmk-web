@@ -7,7 +7,7 @@ import Input from "../../../components/form/Input";
 import { useQuery } from "react-query";
 import { getEntitiesFn } from "../../../api/api";
 
-const UsagesWoker = ({ utrosakId }: { utrosakId?: number }) => {
+const UsagesWorker = ({ utrosakId }: { utrosakId?: number }) => {
   const [edit, setEdit] = useState(false);
   const [model, setModel] = useState<UsagesWorkerQueryModel | null>(null);
   const { data, isLoading } = useQuery("ENTITIES", getEntitiesFn);
@@ -174,4 +174,4 @@ const UsagesWoker = ({ utrosakId }: { utrosakId?: number }) => {
   );
 };
 
-export default UsagesWoker;
+export default UsagesWorker;
