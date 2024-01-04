@@ -66,6 +66,16 @@ export const getExpensesFn = (dateFrom: Date, dateTo: Date) =>
       }))
     );
 
+export const updateExpensesFn = (expense: ExpenseQueryModel) =>
+  axiosInstance.put("/query/troskovi", {
+    id_rashoda: expense.id_rashoda,
+    datum_rashoda: expense.datum_rashoda,
+    sifra_masine: expense.sifra_masine,
+    sifra_parcele: expense.sifra_parcele,
+    sifra_kulture: expense.sifra_kulture,
+    sifra_operacije: expense.sifra_operacije,
+  });
+
 export const getUsagesWorkerFn = (utrosakId: string | number) =>
   axiosInstance.get<UsagesWorkerQueryModel[]>("/query/utrosak-radnik", {
     params: { utrosakId },

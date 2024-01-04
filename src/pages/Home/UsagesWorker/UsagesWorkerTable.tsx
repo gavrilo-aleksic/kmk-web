@@ -71,6 +71,7 @@ const UsagesWorkerTable = ({
     <div className="ag-theme-quartz" style={{ height: 300, width: "100%" }}>
       <AgGridReact
         suppressMovableColumns
+        suppressNoRowsOverlay={isLoading}
         rowSelection="single"
         onRowSelected={(row: any) => {
           if (!row.node.selected) return;

@@ -38,6 +38,7 @@ const ExpenseUsageTable = ({
     >
       <AgGridReact
         suppressMovableColumns
+        suppressNoRowsOverlay={isLoading}
         rowSelection="single"
         onRowSelected={(row: any) => {
           if (!row.node.selected) return;

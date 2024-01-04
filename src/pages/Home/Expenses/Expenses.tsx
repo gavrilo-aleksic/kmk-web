@@ -1,12 +1,23 @@
-import { IonButton, IonCol, IonGrid, IonLabel, IonRow } from "@ionic/react";
+import {
+  IonButton,
+  IonCol,
+  IonGrid,
+  IonLabel,
+  IonRow,
+  IonToast,
+} from "@ionic/react";
 import { useCallback, useEffect, useState } from "react";
 import { ExpenseQueryModel } from "../../../api/types";
 import ExpensesTable from "./ExpensesTable";
 import { subMonths } from "date-fns";
 import Input from "../../../components/form/Input";
 import { useForm } from "react-hook-form";
-import { useQuery } from "react-query";
-import { getEntitiesFn } from "../../../api/api";
+import { useMutation, useQuery } from "react-query";
+import {
+  getEntitiesFn,
+  getExpensesFn,
+  updateExpensesFn,
+} from "../../../api/api";
 import { formatDate } from "../../../utils/format/date";
 
 const Expenses = ({
@@ -36,15 +47,29 @@ const Expenses = ({
     to: new Date(),
   });
 
-  const { data, isLoading } = useQuery("ENTITIES", getEntitiesFn);
+  const { refetch } = useQuery(["EXPENSES", dates.from, dates.to], () =>
+    getExpensesFn(dates.from, dates.to)
+  );
+
+  const { data, error: entitiesError } = useQuery("ENTITIES", getEntitiesFn);
+  const { mutate: updateModel, error: updateError } = useMutation(
+    ["UPDATE_EXPENSE", expense?.id_rashoda],
+    updateExpensesFn,
+    {
+      onSuccess: () => refetch(),
+    }
+  );
 
   const submitCallback = useCallback((e: any) => {
-    console.log(e);
+    updateModel(e);
+    setEditExpense(false);
   }, []);
 
   useEffect(() => {
     setEditExpense(false);
   }, [expense]);
+
+  const error = updateError || entitiesError;
 
   const editDisabled = !editExpense || !expense;
   return (
@@ -125,7 +150,7 @@ const Expenses = ({
             </IonCol>
             <IonCol className="control-buttons-col">
               <div className="control-buttons">
-                <IonButton size="small" disabled={!editExpense}>
+                <IonButton size="small" disabled={!editExpense} type="submit">
                   Prihvati
                 </IonButton>
                 <IonButton
@@ -155,6 +180,12 @@ const Expenses = ({
           setExpense(e);
           onSelectChange(e);
         }}
+      />
+      <IonToast
+        color="danger"
+        message="Doslo je do greske"
+        duration={3000}
+        isOpen={!!error}
       />
     </div>
   );
