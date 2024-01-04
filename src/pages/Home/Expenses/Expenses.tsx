@@ -27,7 +27,7 @@ const Expenses = ({
 }) => {
   const [editExpense, setEditExpense] = useState(false);
   const [expense, setExpense] = useState<ExpenseQueryModel | null>(null);
-  const { control, handleSubmit } = useForm<ExpenseQueryModel>({
+  const { control, handleSubmit, reset } = useForm<ExpenseQueryModel>({
     defaultValues: {
       datum_rashoda: formatDate(new Date()),
       id_rashoda: 0,
@@ -43,7 +43,7 @@ const Expenses = ({
     values: expense || undefined,
   });
   const [dates, setDates] = useState({
-    from: subMonths(new Date(), 1),
+    from: subMonths(new Date(), 3),
     to: new Date(),
   });
 
@@ -157,7 +157,10 @@ const Expenses = ({
                   size="small"
                   disabled={!editExpense}
                   fill="outline"
-                  onClick={() => setEditExpense(false)}
+                  onClick={() => {
+                    setEditExpense(false);
+                    if (expense) reset(expense);
+                  }}
                 >
                   Odustani
                 </IonButton>

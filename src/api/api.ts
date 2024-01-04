@@ -76,6 +76,27 @@ export const updateExpensesFn = (expense: ExpenseQueryModel) =>
     sifra_operacije: expense.sifra_operacije,
   });
 
+export const updateWorkerUsageFn = (usageWorker: UsagesWorkerQueryModel) =>
+  axiosInstance.put("/query/utrosak-radnik", {
+    id_rashodi_radnici: usageWorker.id_rashodi_radnici,
+    cas: Number(usageWorker.cas),
+    cas_cena: Number(usageWorker.cas_cena),
+    cas_ucinak: Number(usageWorker.cas_ucinak),
+    cas_zastoj: Number(usageWorker.cas_zastoj),
+    pov_ucinak: Number(usageWorker.pov_ucinak),
+    sifra_radnika: usageWorker.sifra_radnika,
+    sifra_tip_rada: usageWorker.sifra_tip_rada,
+    ucinak: Number(usageWorker.ucinak),
+    zastoj: Number(usageWorker.zastoj),
+  });
+
+export const updateExpenseUsageFn = (expense: ExpenseUsageQueryModel) =>
+  axiosInstance.put("/query/utrosak", {
+    id_rashodi_utrosci: expense.id_rashodi_utrosci,
+    kolicina_utroska: Number(expense.kolicina_utroska),
+    sifra_utroska: expense.sifra_utroska,
+  });
+
 export const getUsagesWorkerFn = (utrosakId: string | number) =>
   axiosInstance.get<UsagesWorkerQueryModel[]>("/query/utrosak-radnik", {
     params: { utrosakId },

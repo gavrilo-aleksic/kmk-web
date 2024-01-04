@@ -44,7 +44,7 @@ const ExpenseUsageTable = ({
           if (!row.node.selected) return;
           onSelectChange(
             data?.data.find(
-              (e) => e.id_rashodi_utrosci === row.data?.sifra_utroska
+              (e) => e.id_rashodi_utrosci === row.data?.id_rashodi_utrosci
             )!!
           );
         }}

@@ -17,6 +17,7 @@ const Input = ({
   labelPosition,
   hideLabel,
   value,
+  optional,
   ...rest
 }: {
   name: string;
@@ -26,6 +27,7 @@ const Input = ({
   options?: { label: string; value: string | number }[];
   labelPosition?: "fixed" | "floating" | "stacked";
   hideLabel?: boolean;
+  optional?: boolean;
 } & IonicInputProps) => {
   return (
     <IonItem lines={inputType === "checkbox" ? "none" : undefined}>
@@ -48,6 +50,7 @@ const Input = ({
             case "select":
               return (
                 <IonSelect
+                  required={!optional}
                   label={label}
                   labelPlacement="floating"
                   onIonChange={field.onChange}
@@ -64,10 +67,12 @@ const Input = ({
             default:
               return (
                 <IonInput
+                  required={!optional}
                   label={label}
                   labelPlacement="floating"
                   value={value || field.value.toString()}
                   onIonChange={field.onChange}
+                  step={rest.type === "number" ? "0.001" : undefined}
                   {...rest}
                 />
               );

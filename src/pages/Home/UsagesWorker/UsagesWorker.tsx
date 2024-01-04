@@ -2,17 +2,32 @@ import { useState, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { UsagesWorkerQueryModel } from "../../../api/types";
 import UsagesWorkerTable from "./UsagesWorkerTable";
-import { IonGrid, IonRow, IonCol, IonButton, IonLabel } from "@ionic/react";
+import {
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonButton,
+  IonLabel,
+  IonToast,
+} from "@ionic/react";
 import Input from "../../../components/form/Input";
-import { useQuery } from "react-query";
-import { getEntitiesFn } from "../../../api/api";
+import { useMutation, useQuery } from "react-query";
+import {
+  getEntitiesFn,
+  getUsagesWorkerFn,
+  updateWorkerUsageFn,
+} from "../../../api/api";
 
 const UsagesWorker = ({ utrosakId }: { utrosakId?: number }) => {
   const [edit, setEdit] = useState(false);
   const [model, setModel] = useState<UsagesWorkerQueryModel | null>(null);
-  const { data, isLoading } = useQuery("ENTITIES", getEntitiesFn);
+  const {
+    data,
+    isLoading,
+    error: entitiesError,
+  } = useQuery("ENTITIES", getEntitiesFn);
 
-  const { control, handleSubmit } = useForm<UsagesWorkerQueryModel>({
+  const { control, handleSubmit, reset } = useForm<UsagesWorkerQueryModel>({
     defaultValues: {
       cas: 0,
       cas_cena: 0,
@@ -30,8 +45,23 @@ const UsagesWorker = ({ utrosakId }: { utrosakId?: number }) => {
     values: model || undefined,
   });
 
+  const { refetch } = useQuery(
+    ["USAGES_WORKER", utrosakId],
+    () => getUsagesWorkerFn(utrosakId!!),
+    { enabled: !!utrosakId }
+  );
+
+  const { mutate: updateModel, error: updateError } = useMutation(
+    ["UPDATE_USAGE_WORKER", model?.id_rashodi_radnici],
+    updateWorkerUsageFn,
+    {
+      onSuccess: () => refetch(),
+    }
+  );
+
   const submitCallback = useCallback((e: any) => {
-    console.log(e);
+    updateModel(e);
+    setEdit(false);
   }, []);
 
   useEffect(() => {
@@ -39,137 +69,151 @@ const UsagesWorker = ({ utrosakId }: { utrosakId?: number }) => {
   }, [model]);
 
   const editDisabled = !edit || !model;
+
+  const error = updateError || entitiesError;
+
   return (
     <div className="content-card">
       <h6>Utrosak po radniku</h6>
       <IonGrid>
-        <IonRow>
-          <IonCol>
-            <Input
-              control={control}
-              label="Cas"
-              type="number"
-              name={"cas"}
-              disabled={editDisabled}
-            />
-          </IonCol>
-          <IonCol>
-            <Input
-              control={control}
-              label="Ucinak"
-              name={"ucinak"}
-              type="number"
-              disabled={editDisabled}
-            />
-          </IonCol>
-          <IonCol>
-            <Input
-              control={control}
-              label="Zastoj"
-              name={"zastoj"}
-              type="number"
-              disabled={editDisabled}
-            />
-          </IonCol>
-          <IonCol>
-            <Input
-              control={control}
-              label="Vrsta Rada"
-              name={"sifra_tip_rada"}
-              inputType="select"
-              options={
-                data?.data.tipoviRada.map((e) => ({
-                  label:
-                    e.naziv_tipa_rada || e.sifra_tip_rada?.toString() || "-",
-                  value: e.sifra_tip_rada!!,
-                })) || []
-              }
-              disabled={editDisabled}
-            />
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <Input
-              control={control}
-              label="Cas Cena"
-              type="number"
-              name={"cas_cena"}
-              disabled={editDisabled}
-            />
-          </IonCol>
-          <IonCol>
-            <Input
-              control={control}
-              label="Cas Ucinak"
-              name={"cas_ucinak"}
-              type="number"
-              disabled={editDisabled}
-            />
-          </IonCol>
-          <IonCol>
-            <Input
-              control={control}
-              label="Cas Zastoj"
-              name={"cas_zastoj"}
-              type="number"
-              disabled={editDisabled}
-            />
-          </IonCol>
-          <IonCol>
-            <Input
-              control={control}
-              label="Radnik"
-              name={"sifra_radnika"}
-              inputType="select"
-              options={
-                data?.data.radnici.map((e) => ({
-                  label:
-                    e.ime_i_prezime_radnika ||
-                    e.sifra_radnika?.toString() ||
-                    "-",
-                  value: e.sifra_radnika!!,
-                })) || []
-              }
-              disabled={editDisabled}
-            />
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol size="3">
-            <Input
-              control={control}
-              label="Povrsina"
-              name={"pov_ucinak"}
-              type="number"
-              disabled={editDisabled}
-            />
-          </IonCol>
-          <IonCol className="control-buttons-col">
-            <div className="control-buttons">
-              <IonButton size="small" disabled={!edit}>
-                Prihvati
-              </IonButton>
-              <IonButton
-                size="small"
-                disabled={!edit}
-                fill="outline"
-                onClick={() => setEdit(false)}
-              >
-                Odustani
-              </IonButton>
-              <IonButton
-                size="small"
-                disabled={!model}
-                onClick={() => setEdit(true)}
-              >
-                Izmeni
-              </IonButton>
-            </div>
-          </IonCol>
-        </IonRow>
+        <form onSubmit={handleSubmit(submitCallback)}>
+          <IonRow>
+            <IonCol>
+              <Input
+                control={control}
+                label="Cas"
+                type="number"
+                name={"cas"}
+                disabled={editDisabled}
+              />
+            </IonCol>
+            <IonCol>
+              <Input
+                control={control}
+                label="Ucinak"
+                name={"ucinak"}
+                type="number"
+                disabled={editDisabled}
+              />
+            </IonCol>
+            <IonCol>
+              <Input
+                control={control}
+                label="Zastoj"
+                name={"zastoj"}
+                type="number"
+                disabled={editDisabled}
+              />
+            </IonCol>
+            <IonCol>
+              <Input
+                control={control}
+                label="Vrsta Rada"
+                name={"sifra_tip_rada"}
+                inputType="select"
+                options={
+                  data?.data.tipoviRada.map((e) => ({
+                    label:
+                      e.naziv_tipa_rada || e.sifra_tip_rada?.toString() || "-",
+                    value: e.sifra_tip_rada!!,
+                  })) || []
+                }
+                disabled={editDisabled}
+              />
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <Input
+                control={control}
+                label="Cas Cena"
+                type="number"
+                name={"cas_cena"}
+                disabled={editDisabled}
+              />
+            </IonCol>
+            <IonCol>
+              <Input
+                control={control}
+                label="Cas Ucinak"
+                name={"cas_ucinak"}
+                type="number"
+                disabled={editDisabled}
+              />
+            </IonCol>
+            <IonCol>
+              <Input
+                control={control}
+                label="Cas Zastoj"
+                name={"cas_zastoj"}
+                type="number"
+                disabled={editDisabled}
+              />
+            </IonCol>
+            <IonCol>
+              <Input
+                control={control}
+                label="Radnik"
+                name={"sifra_radnika"}
+                inputType="select"
+                options={
+                  data?.data.radnici.map((e) => ({
+                    label:
+                      e.ime_i_prezime_radnika ||
+                      e.sifra_radnika?.toString() ||
+                      "-",
+                    value: e.sifra_radnika!!,
+                  })) || []
+                }
+                disabled={editDisabled}
+              />
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="3">
+              <Input
+                control={control}
+                label="Povrsina"
+                name={"pov_ucinak"}
+                type="number"
+                disabled={editDisabled}
+              />
+            </IonCol>
+            <IonCol className="control-buttons-col">
+              <div className="control-buttons">
+                <IonButton size="small" disabled={!edit} type="submit">
+                  Prihvati
+                </IonButton>
+                <IonButton
+                  size="small"
+                  disabled={!edit}
+                  fill="outline"
+                  onClick={() => {
+                    setEdit(false);
+                    if (model) reset(model);
+                  }}
+                >
+                  Odustani
+                </IonButton>
+                <IonButton
+                  size="small"
+                  disabled={!model}
+                  onClick={() => setEdit(true)}
+                >
+                  Izmeni
+                </IonButton>
+              </div>
+            </IonCol>
+          </IonRow>
+        </form>
       </IonGrid>
       <UsagesWorkerTable id={utrosakId} onSelectChange={(e) => setModel(e)} />
+      <IonToast
+        color="danger"
+        message="Doslo je do greske"
+        duration={3000}
+        isOpen={!!error}
+      />
     </div>
   );
 };
