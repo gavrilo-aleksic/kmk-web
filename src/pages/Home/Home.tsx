@@ -1,4 +1,5 @@
 import {
+  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
@@ -14,10 +15,11 @@ import { ExpenseQueryModel } from "../../api/types";
 import Expenses from "./Expenses/Expenses";
 import UsagesWorker from "./UsagesWorker/UsagesWorker";
 import ExpenseUsage from "./ExpenseUsage/ExpenseUsage";
+import { useHistory } from "react-router";
 
 const Home: React.FC = () => {
   const menuRef = useRef<any>();
-
+  const { push } = useHistory();
   const [selectedExpense, setSelectedExpense] = useState<ExpenseQueryModel>();
 
   return (
@@ -28,7 +30,16 @@ const Home: React.FC = () => {
             <IonTitle>Menu Content</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent className="ion-padding">TODO</IonContent>
+        <IonContent className="ion-padding">
+          <IonButton
+            onClick={() => {
+              localStorage.clear();
+              push("/login");
+            }}
+          >
+            Odjavi se
+          </IonButton>
+        </IonContent>
       </IonMenu>
       <IonPage>
         <IonHeader>
